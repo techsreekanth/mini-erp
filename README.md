@@ -13,3 +13,13 @@
    cd mini-erp
 
    composer install
+
+   npm run build
+
+update database credentials in .env file
+
+  ``` sh
+  php artisan migrate
+  php artisan serve
+
+  open http://localhost:8000 
