@@ -2,7 +2,11 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{ProjectsController, UsersController};
+use App\Http\Controllers\{
+    ProjectsController,
+    ResourceAllocationController,
+    UsersController
+};
 
 Route::get('/', function () {
     return view('welcome');
@@ -20,6 +24,11 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('users', UsersController::class);
     Route::resource('projects', ProjectsController::class);
+
+
+    Route::post('/allocate-resource', [ResourceAllocationController::class, 'allocateResource']);
+    Route::delete('/deallocate-resource/{id}', [ResourceAllocationController::class, 'deallocateResource']);
+    Route::get('/projects/{id}/resources', [ResourceAllocationController::class, 'showProjectResources']);
 });
 
 require __DIR__ . '/auth.php';
