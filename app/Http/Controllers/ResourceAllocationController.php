@@ -16,7 +16,6 @@ class ResourceAllocationController extends Controller
             'resource_id' => 'required|exists:resources,id',
             'assigned_from' => 'required|date',
             'assigned_to' => 'required|date',
-            'allocation_percentage' => 'required|integer|min:1|max:100',
         ]);
 
         $resource = Resource::find($request->resource_id);

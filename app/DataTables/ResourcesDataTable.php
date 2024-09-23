@@ -23,6 +23,9 @@ class ResourcesDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', 'resources.action')
+            ->editColumn('availability', function ($resource) {
+                return $resource->availability ? 'Available' : 'Not Available';
+            })
             ->setRowId('id');
     }
 
@@ -67,14 +70,10 @@ class ResourcesDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->width(60)
-                ->addClass('text-center'),
             Column::make('id'),
             Column::make('name'),
             Column::make('type'),
+            Column::make('availability'),
         ];
     }
 
