@@ -24,6 +24,10 @@
                         {{ __('Projects') }}
                     </x-nav-link>
                     
+                    <x-nav-link :href="route('resources.index')" :active="request()->routeIs('resources.*')">
+                        {{ __('Resources') }}
+                    </x-nav-link>
+                    
                 </div>
             </div>
 

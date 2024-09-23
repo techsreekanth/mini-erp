@@ -2,13 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
-use App\DataTables\ProjectsDataTable;
 use App\Models\{Project, ResourceAssignment, Resource};
 
 
@@ -27,12 +21,10 @@ class ResourceAllocationController extends Controller
 
         $resource = Resource::find($request->resource_id);
 
-        // Check if resource is available
         if (!$resource->availability) {
             return response()->json(['error' => 'Resource not available'], 400);
         }
 
-        // Check if the resource is already allocated during the specified period
         $conflict = ResourceAssignment::where('resource_id', $request->resource_id)
             ->where(function ($query) use ($request) {
                 $query->whereBetween('assigned_from', [$request->assigned_from, $request->assigned_to])
@@ -43,7 +35,6 @@ class ResourceAllocationController extends Controller
             return response()->json(['error' => 'Resource allocation conflict'], 400);
         }
 
-        // Create a new resource assignment
         ResourceAssignment::create($request->all());
 
         return response()->json(['success' => 'Resource allocated successfully']);
@@ -54,7 +45,6 @@ class ResourceAllocationController extends Controller
         $assignment = ResourceAssignment::findOrFail($id);
         $resource = $assignment->resource;
 
-        // Deallocate resource and update its availability
         $assignment->delete();
         $resource->availability = true;
         $resource->save();

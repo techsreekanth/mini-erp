@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     ProjectsController,
     ResourceAllocationController,
+    ResourceController,
     UsersController
 };
 
@@ -24,6 +25,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('users', UsersController::class);
     Route::resource('projects', ProjectsController::class);
+    Route::resource('resources', ResourceController::class);
 
 
     Route::post('/allocate-resource', [ResourceAllocationController::class, 'allocateResource']);
